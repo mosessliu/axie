@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.3'
-
+gem 'pg'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.3', '>= 6.1.3.2'
 # Use Puma as the app server
@@ -55,11 +55,7 @@ group :test do
 end
 
 group :development, :test do
-  gem 'sqlite3'
-end
-
-group :production do
-  gem 'pg'
+  gem 'pry', '~> 0.13.1'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
