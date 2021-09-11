@@ -10,6 +10,8 @@ class HomeController < ApplicationController
   private
 
   def get_records?
+    return true if SlpLog.count == 0
+
     last_log = SlpLog.last
     cutoff_time = '10:00 AM PDT'
 
