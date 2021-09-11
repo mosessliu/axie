@@ -1,28 +1,25 @@
 class GetSlpService
-  def run
-    ''
+  def run(record: true)
+    Scholar.all.each do |scholar|
+      total = slp_total(scholar)
+      SlpLog.create!(total: total, scholar: scholar) if record
+    end
   end
-end
 
-require 'rest-client'
-require 'json'
+  private
 
-Scholar = Struct.new(:id, :ronin_id, :discord_name)
+  def slp_total(scholar)
+    resp = RestClient.get(slp_url(scholar.ronin_wallet_id))
+    body = JSON.parse(resp.body)
 
-SCHOLARS = [
-  Scholar.new(1, '0x79028e8987642e3898cfbcb212f7dbc166047588', 'jpc'),
-  Scholar.new(2, '0x8b27daa7acfb16e16e412a3e1f632f17d69d4d6b', 'tyler')
-]
+    slp_total = body['total']
 
-def slp_url(ronin_id)
-  "https://game-api.skymavis.com/game-api/clients/#{ronin_id}/items/1"
-end
+    puts "#{scholar.discord_name}: #{slp_total}"
 
-SCHOLARS.each do |scholar|
-  resp = RestClient.get(slp_url(scholar.ronin_id))
-  body = JSON.parse(resp.body)
+    slp_total
+  end
 
-  slp_total = body['total']
-
-  puts "#{scholar.discord_name}: #{slp_total}"
+  def slp_url(ronin_id)
+    "https://game-api.skymavis.com/game-api/clients/#{ronin_id}/items/1"
+  end
 end
