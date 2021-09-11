@@ -17,14 +17,14 @@ class CreateScholars < ActiveRecord::Migration[6.1]
       (
         'jpc',
         '0x79028e8987642e3898cfbcb212f7dbc166047588',
-        DATETIME(),
-        DATETIME()
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
       ),
       (
         'tyler',
         '0x8b27daa7acfb16e16e412a3e1f632f17d69d4d6b',
-        DATETIME(),
-        DATETIME()
+        CURRENT_TIMESTAMP,
+        CURRENT_TIMESTAMP
       )
     SQL
   end

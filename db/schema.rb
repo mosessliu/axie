@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 2021_09_10_231043) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "scholars", force: :cascade do |t|
     t.string "discord_name"
     t.string "ronin_wallet_id"
@@ -21,7 +24,7 @@ ActiveRecord::Schema.define(version: 2021_09_10_231043) do
 
   create_table "slp_logs", force: :cascade do |t|
     t.integer "total", null: false
-    t.integer "scholar_id", null: false
+    t.bigint "scholar_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["scholar_id"], name: "index_slp_logs_on_scholar_id"

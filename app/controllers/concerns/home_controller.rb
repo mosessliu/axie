@@ -28,7 +28,7 @@ class HomeController < ApplicationController
       if logs.empty?
         Row.new(scholar, 0, 0, nil)
       elsif logs.count == 1
-        Row.new(scholar, logs.first, 0, nil)
+        Row.new(scholar, logs.first.total, 0, nil)
       else
         total = logs[1].total
         delta = logs[1].total - logs[0].total
