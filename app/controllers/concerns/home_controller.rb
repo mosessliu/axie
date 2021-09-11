@@ -2,7 +2,25 @@ class HomeController < ApplicationController
   Row = Struct.new(:scholar, :slp_total, :slp_delta, :last_tracked_at)
 
   def index
-    rows = Scholar.includes(:slp_logs).map do |scholar|
+    GetSlpService.new.run if get_records?
+
+    @rows = rows
+  end
+
+  private
+
+  def get_records?
+    last_log = SlpLog.last
+    cutoff_time = '10:00 AM PDT'
+
+    no_logs_today_yet = last_log.created_at <= Time.zone.today
+    past_cutoff = Time.zone.now >= DateTime.parse(cutoff_time).utc
+
+    no_logs_today_yet && past_cutoff
+  end
+
+  def rows
+    Scholar.includes(:slp_logs).map do |scholar|
       logs = scholar.slp_logs.last(2)
 
       if logs.empty?
@@ -19,7 +37,5 @@ class HomeController < ApplicationController
         Row.new(scholar, total, delta, last_tracked_at_display)
       end
     end
-
-    @rows = rows
   end
 end
